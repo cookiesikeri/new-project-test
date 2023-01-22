@@ -22,7 +22,6 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
 
 Route::get('/articles', [ApiController::class, 'Articles']);
 Route::get('/articles/{id}', [ApiController::class, 'ArticleID']);
-Route::post('/articles/{id}/comment', [ApiController::class, 'ArticleComment']);
 Route::get('/articles/{id}/comments', [ApiController::class, 'ArticleComments']);
 Route::get('/articles/{id}/like', [ApiController::class, 'ArticleLikes']);
 Route::get('/articles/{id}/view', [ApiController::class, 'ArticleView']);

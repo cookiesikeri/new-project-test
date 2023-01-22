@@ -43,7 +43,7 @@ class ApiController extends Controller
     public function ArticleView($id)
     {
         try {
-            $data = Post::on('mysql::write')->where('id', $id)->pluck('views')->count();
+            $data = Post::on('mysql::write')->where('id', $id)->sum('view_count');
 
             return response()->json([ 'status' => true, 'message' => 'Article successfully fetched', 'response' => $data ], 200);
         }catch (ModelNotFoundException $e) {
@@ -56,7 +56,7 @@ class ApiController extends Controller
     public function ArticleLikes($id)
     {
         try {
-            $data = Like::on('mysql::write')->where('post_id', $id)->count();
+            $data = Like::on('mysql::write')->where('post_id', $id)->sum('view_count');
 
             return response()->json([ 'status' => true, 'message' => 'Article successfully fetched', 'response' => $data ], 200);
         }catch (ModelNotFoundException $e) {
@@ -69,7 +69,7 @@ class ApiController extends Controller
     public function ArticleComments($id)
     {
         try {
-            $data = Comment::on('mysql::write')->where('post_id', $id)->get();
+            $data = Comment::on('mysql::write')->where('post_id', $id)->count();
 
             return response()->json([ 'status' => true, 'message' => 'Article successfully fetched', 'response' => $data ], 200);
         }catch (ModelNotFoundException $e) {
