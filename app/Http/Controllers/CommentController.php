@@ -15,6 +15,7 @@ class CommentController extends Controller
         $comment = new Comment();
         $comment->post_id = $post;
         $comment->user_id = Auth::id();
+        $comment->subject = $request->subject;
         $comment->message = $request->message; //change comment field to message
         $comment->save();
 

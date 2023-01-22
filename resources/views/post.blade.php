@@ -156,6 +156,9 @@
                             <div class="desc">
                               <h5><a href="#">{{$comment->user->name}}</a></h5>
                               <p class="date">{{$comment->created_at->format('D, d M Y H:i')}}</p>
+                              <code>
+                                {{$comment->subject}}
+                              </code>
                               <p class="comment">
                                 {{$comment->message}}
                               </p>
@@ -181,6 +184,9 @@
                             <div class="desc">
                               <h5><a href="#">{{$reply->user->name}}</a></h5>
                               <p class="date">{{$reply->created_at->format('D, d M Y H:i')}}</p>
+                              <code>
+                                {{$comment->subject}}
+                              </code>
                               <p class="comment">
                                 {{$reply->message}}
                               </p>
@@ -216,6 +222,8 @@
                               <form action="{{route('reply.store',$comment->id)}}" method="POST">
                               @csrf
                                 <div class="col-lg-12">
+                                    <input type="text" class="form-control mb-10" name="subject" required placeholder="subject">
+                                    <br>
                                   <textarea
                                     id="reply-form-{{$comment->id}}-text"
                                     cols="60"
@@ -256,6 +264,8 @@
                       <div class="col-lg-12">
                           <form action="{{route('comment.store', $post->id)}}" method="POST">
                               @csrf
+                              <input type="text" class="form-control mb-10" name="subject" required placeholder="subject">
+                              <br>
                           <textarea
                             class="form-control mb-10"
                             name="message"

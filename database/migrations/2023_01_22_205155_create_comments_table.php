@@ -16,6 +16,7 @@ class CreateCommentsTable extends Migration
         Schema::create('comments', function (Blueprint $table) {
             $table->unsignedBigInteger('post_id');
             $table->unsignedBigInteger('user_id');
+            $table->string('subject')->nullable();
             $table->text('message');
 
             // Delete all comments on delete posts
