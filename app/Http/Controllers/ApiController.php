@@ -69,7 +69,7 @@ class ApiController extends Controller
     public function ArticleComments($id)
     {
         try {
-            $data = Comment::on('mysql::write')->where('post_id', $id)->count();
+            $data = Comment::on('mysql::write')->where('post_id', $id)->get();
 
             return response()->json([ 'status' => true, 'message' => 'Article successfully fetched', 'response' => $data ], 200);
         }catch (ModelNotFoundException $e) {
