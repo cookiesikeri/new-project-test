@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Category;
 use App\Models\Post;
 use App\Models\Tag;
 use Illuminate\Http\Request;
@@ -69,5 +70,28 @@ class HomeController extends Controller
             $user->likedPosts()->detach($post);
         }
         return redirect()->back();
+    }
+
+    public function search(Request $request)
+    {
+        $this->validate($request, ['search' => 'required|max:255']);
+        $search = $request->search;
+        $posts = Post::where('title', 'like', "%$search%")->paginate(10);
+        $posts->appends(['search' => $search]);
+
+        // $categories = Category::all();
+        return view('search', compact('posts', 'search'));
+    }
+    public function categories()
+    {
+        $categories = Category::all();
+        return view('categories', compact('categories'));
+    }
+    public function categoryPost($slug)
+    {
+        $category = Category::where('slug', $slug)->first();
+        $posts = $category->posts()->published()->paginate(10);
+
+        return view('categoryPost', compact('posts'));
     }
 }
