@@ -9,6 +9,24 @@ class Post extends Model
 {
     use HasFactory;
 
+    protected $model = \App\Models\Post::class;
+
+    public function definition()
+    {
+        return [
+
+
+            'user_id' => 1,
+            'category_id'=> random_int(1,8),
+            'title' => $this->faker->sentence($nbWords = 10, $variableNbWords = true),
+            'slug' => Str::slug($this->faker->sentence($nbWords = 10, $variableNbWords = true)),
+            'image' => 'https://cdn.britannica.com/39/7139-050-A88818BB/Himalayan-chocolate-point.jpg',
+            'body' => $this->faker->paragraph($nbSentences = 20, $variableNbSentences = true),
+            'view_count' => 0,
+            'status' => 1
+        ];
+    }
+
     protected $guarded = [];
 
     public function user()

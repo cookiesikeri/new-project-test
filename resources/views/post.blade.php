@@ -164,11 +164,7 @@
                               </p>
                             </div>
                           </div>
-                          <div class="">
-                            <button class="btn-reply text-uppercase" id="reply-btn"
-                              onclick="showReplyForm('{{$comment->id}}','{{$comment->user->name}}')">reply</button
-                            >
-                          </div>
+
                         </div>
                       </div>
                     @if($comment->replies->count() > 0)
@@ -192,11 +188,7 @@
                               </p>
                             </div>
                           </div>
-                          <div class="">
-                            <button class="btn-reply text-uppercase" id="reply-btn"
-                              onclick="showReplyForm('{{$comment->id}}','{{$reply->user->name}}')">reply</button
-                            >
-                          </div>
+
                         </div>
                       </div>
 
@@ -204,46 +196,7 @@
                     @else
                     @endif
                       {{-- When user login show reply fourm --}}
-                      @guest
-                      {{-- Show none --}}
-                      @else
-                      <div class="comment-list left-padding" id="reply-form-{{$comment->id}}" style="display: none">
-                        <div
-                          class="single-comment justify-content-between d-flex"
-                        >
-                          <div class="user justify-content-between d-flex">
-                            <div class="thumb">
-                              <img src="https://cdn.britannica.com/39/7139-050-A88818BB/Himalayan-chocolate-point.jpg" alt="{{Auth::user()->image}}" width="50px"/>
-                            </div>
-                            <div class="desc">
-                              <h5><a href="#">{{Auth::user()->name}}</a></h5>
-                              <p class="date">{{date('D, d M Y H:i')}}</p>
-                              <div class="row flex-row d-flex">
-                              <form action="{{route('reply.store',$comment->id)}}" method="POST">
-                              @csrf
-                                <div class="col-lg-12">
-                                    <input type="text" class="form-control mb-10" name="subject" required placeholder="subject">
-                                    <br>
-                                  <textarea
-                                    id="reply-form-{{$comment->id}}-text"
-                                    cols="60"
-                                    rows="2"
-                                    class="form-control mb-10"
-                                    name="message"
-                                    placeholder="Messege"
-                                    onfocus="this.placeholder = ''"
-                                    onblur="this.placeholder = 'Messege'"
-                                    required=""
-                                  ></textarea>
-                                </div>
-                                <button type="submit" class="btn-reply text-uppercase ml-3">Reply</button>
-                              </form>
-                              </div>
-                            </div>
-                          </div>
-                        </div>
-                      </div>
-                      @endguest
+
                   </div>
                  @endforeach
                 </div>

@@ -18,14 +18,14 @@ class UsersTableSeeder extends Seeder
             'role_id' => 1,
             'name' => 'Admin',
             'email' => 'test@example.com',
-            'password' =>  bcrypt('admin'),
+            'password' =>  '$2y$10$8pW.PkZ/YoOqmSjB004bbunEehYdruDG8w7BvFNbjPcdjDTYdUysS', //123456
         ]);
         $user = User::create([
             'userid' => 'user101',
             'role_id' => 2,
             'name' => 'User',
             'email' => 'user@example.com',
-            'password' =>  bcrypt('user'),
+            'password' =>  '$2y$10$8pW.PkZ/YoOqmSjB004bbunEehYdruDG8w7BvFNbjPcdjDTYdUysS',
         ]);
     }
 }

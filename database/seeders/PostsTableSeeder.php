@@ -13,6 +13,8 @@ class PostsTableSeeder extends Seeder
      */
     public function run()
     {
-        $posts = factory(App\Models\Post::class, 20)->create();
+
+
+        \App\Models\Post::factory()->count(20)->create();
     }
 }

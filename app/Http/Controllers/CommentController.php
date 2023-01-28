@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Comment;
+use Brian2694\Toastr\Facades\Toastr;
 use Illuminate\Support\Facades\Session;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -20,7 +21,7 @@ class CommentController extends Controller
         $comment->save();
 
         // Success message
-        Session::flash('success', 'Your comment added successfully.');
+        Toastr::success('success', 'The comment added successfully ;)');
 
         return redirect()->back();
     }

@@ -23,7 +23,7 @@ class PostFactory extends Factory
             'slug' => Str::slug($this->faker->sentence($nbWords = 10, $variableNbWords = true)),
             'image' => 'https://cdn.britannica.com/39/7139-050-A88818BB/Himalayan-chocolate-point.jpg',
             'body' => $this->faker->paragraph($nbSentences = 20, $variableNbSentences = true),
-            'view_count' => random_int(10,100),
+            'view_count' => 0,
             'status' => 1
         ];
     }

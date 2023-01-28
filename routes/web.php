@@ -1,10 +1,17 @@
 <?php
 
 use App\Http\Controllers\Admin\CategoryController;
+use App\Http\Controllers\Admin\CommentController as AdminCommentController;
+use App\Http\Controllers\Admin\CommentReplyController;
 use App\Http\Controllers\Admin\DashboardController;
+use App\Http\Controllers\Admin\PostController;
+use App\Http\Controllers\Admin\UserController;
 use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\CommentController;
 use App\Http\Controllers\HomeController;
+use App\Http\Controllers\User\CommentController as UserCommentController;
+use App\Http\Controllers\User\CommentReplyController as UserCommentReplyController;
+use App\Http\Controllers\User\DashboardController as UserDashboardController;
 use App\Models\Category;
 use App\Models\Post;
 use App\Models\Tag;
@@ -25,13 +32,9 @@ use Illuminate\Support\Facades\Mail;
 
 Auth::routes(['verify' => true]);
 
-Route::get('login/google', [LoginController::class, 'redirectToProvider']);
-Route::get('login/google/callback', [LoginController::class, 'handleProviderCallback']);
-
 Route::get('/', [HomeController::class, 'index']);
 Route::get('/categories', [HomeController::class, 'categories'])->name('categories');
 Route::get('/category/{slug}', [HomeController::class, 'categoryPost'])->name('category.post');
-Route::get('/search', [HomeController::class, 'search'])->name('search');
 
 Route::get('/posts', [HomeController::class, 'posts'])->name('posts');
 Route::get('/post/{slug}', [HomeController::class, 'post'])->name('post');
@@ -40,57 +43,12 @@ Route::post('/like-post/{post}', [HomeController::class, 'likePost'])->name('pos
 
 
 Route::post('/comment/{post}', [CommentController::class, 'store'])->name('comment.store');
-Route::post('/comment-reply/{comment}', [CommentController::class, 'CommentReply'])->name('reply.store')->middleware(['auth', 'verified']);
+Route::post('commentreply/{comment}', [CommentReplyController::class, 'CommentReply'])->name('replycomment.store');
 
 
 // View Composer
 View::composer('layouts.frontend.partials.sidebar', function ($view) {
 
-    $categories = Category::all()->take(10);
-    $recentTags = Tag::all();
-    $recentPosts = Post::latest()->take(3)->get();
-    return $view->with('categories', $categories)->with('recentPosts', $recentPosts)->with('recentTags', $recentTags);
-});
-
-
-// Admin ////////////////////////////////////////////////////////////////////////
-Route::group(['prefix' => 'admin', 'as' => 'admin.', 'namespace' => 'Admin', 'middleware' => ['auth', 'admin','verified']], function () {
-
-    Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
-    Route::get('/profile', [DashboardController::class, 'showProfile'])->name('profile');
-    Route::put('/profile', [DashboardController::class, 'updateProfile'])->name('profile.update');
-    Route::put('/profile/password', [DashboardController::class, 'changePassword'])->name('profile.password');
-
-
-    Route::resource('user', 'UserController')->except(['create', 'show', 'edit', 'store']);
-
-    Route::resource('category',CategoryController::class)->except(['create', 'show', 'edit']);
-
-    Route::resource('post', 'PostController');
-    Route::get('/comments', 'CommentController@index')->name('comment.index');
-    Route::delete('/comment/{id}', 'CommentController@destroy')->name('comment.destroy');
-    Route::get('/reply-comments', 'CommentReplyController@index')->name('reply-comment.index');
-    Route::delete('/reply-comment/{id}', 'CommentReplyController@destroy')->name('reply-comment.destroy');
-    Route::get('/post-liked-users/{post}', 'PostController@likedUsers')->name('post.like.users');
-
-});
-
-// User ////////////////////////////////////////////////////////////////////////
-Route::group(['prefix' => 'user', 'as' => 'user.', 'namespace' => 'User', 'middleware' => ['auth', 'user', 'verified']], function () {
-    Route::get('dashboard', 'DashboardController@likedPosts')->name('dashboard');
-    Route::get('profile', 'DashboardController@showProfile')->name('profile');
-    Route::put('profile', 'DashboardController@updateProfile')->name('profile.update');
-    Route::put('profile/password', 'DashboardController@changePassword')->name('profile.password');
-    Route::get('comments', 'CommentController@index')->name('comment.index');
-    Route::delete('/comment/{id}', 'CommentController@destroy')->name('comment.destroy');
-    Route::get('/reply-comments', 'CommentReplyController@index')->name('reply-comment.index');
-    Route::delete('/reply-comment/{id}', 'CommentReplyController@destroy')->name('reply-comment.destroy');
-    Route::get('/user-liked-posts', 'DashboardController@likedPosts')->name('like.posts');
-});
-
-
-// View Composer
-View::composer('layouts.frontend.partials.sidebar', function ($view) {
     $categories = Category::all()->take(10);
     $recentTags = Tag::all();
     $recentPosts = Post::latest()->take(3)->get();
